@@ -34,6 +34,8 @@ public class Main {
             System.out.println("2. Comprar un disco");
             System.out.println("3. Mostrar discos con más de X ventas");
             System.out.println("4. Mostrar artista con más ventas");
+            System.out.println("5. Agregar nuevo artista");
+            System.out.println("6. Agregar nuevo disco a un artista");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
@@ -108,6 +110,55 @@ public class Main {
                     } else {
                         System.out.println("No hay artistas registrados.");
                     }
+                    break;
+
+                case 5:
+                    System.out.println("\n--- AGREGAR NUEVO ARTISTA ---");
+                    System.out.print("Ingrese el nombre del nuevo artista: ");
+                    String nombreArtista = scanner.nextLine().trim();
+
+                    if (nombreArtista.isEmpty()) {
+                        System.out.println("Nombre inválido.");
+                        break;
+                    }
+
+                    Artista nuevoArtista = new Artista(nombreArtista);
+                    gestor.agregarArtista(nuevoArtista);
+                    System.out.println("Artista agregado exitosamente.");
+                    break;
+
+                case 6:
+                    System.out.println("\n--- AGREGAR NUEVO DISCO ---");
+                    List<Artista> listaArtistas = gestor.getArtistas();
+                    if (listaArtistas.isEmpty()) {
+                        System.out.println("No hay artistas disponibles. Agregue un artista primero.");
+                        break;
+                    }
+
+                    for (int i = 0; i < listaArtistas.size(); i++) {
+                        System.out.println((i + 1) + ". " + listaArtistas.get(i).getNombre());
+                    }
+
+                    System.out.print("Seleccione un artista por número: ");
+                    int indexArtista = scanner.nextInt() - 1;
+                    scanner.nextLine();
+
+                    if (indexArtista < 0 || indexArtista >= listaArtistas.size()) {
+                        System.out.println("Opción inválida.");
+                        break;
+                    }
+
+                    System.out.print("Ingrese el nombre del nuevo disco: ");
+                    String nombreDisco = scanner.nextLine().trim();
+
+                    if (nombreDisco.isEmpty()) {
+                        System.out.println("Nombre de disco inválido.");
+                        break;
+                    }
+
+                    Discos nuevoDisco = new Discos(nombreDisco, listaArtistas.get(indexArtista));
+                    gestor.agregarDisco(nuevoDisco);
+                    System.out.println("Disco agregado exitosamente.");
                     break;
 
                 case 0:
